@@ -1,0 +1,40 @@
+{
+  "name": "IOT Smart Meter",
+  "short_name": "Smart Meter",
+  "description": "Intelligent Energy Management System",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/ioticon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/ioticon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your energy dashboard",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/ioticon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
