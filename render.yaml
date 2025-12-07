@@ -1,9 +1,9 @@
 services:
-  # --- BACKEND SERVICE ---
+  # --- BACKEND (Node.js) ---
   - type: web
     name: iot-smart-meter-backend
     runtime: node
-    # plan: free  <-- REMOVED (Invalid)
+    plan: free             # <--- VALID for Backends (in Personal workspaces)
     region: oregon
     autoDeploy: true
     buildCommand: |
@@ -29,28 +29,15 @@ services:
         value: <YOUR_FIREBASE_DATABASE_URL>
       - key: FIREBASE_SA_BASE64
         value: <BASE64_ENCODED_FIREBASE_SERVICE_ACCOUNT_JSON>
-      - key: MQTT_BROKER_URL
-        value: mqtt://broker.hivemq.com:1883
-      - key: MQTT_USERNAME
-        value: ""
-      - key: MQTT_PASSWORD
-        value: ""
-      - key: UNITS_PER_KES
-        value: "0.05"
-      - key: DARAJA_CONSUMER_KEY
-        value: <YOUR_DARAJA_CONSUMER_KEY>
-      - key: DARAJA_CONSUMER_SECRET
-        value: <YOUR_DARAJA_CONSUMER_SECRET>
-      - key: DARAJA_SHORTCODE
-        value: <YOUR_SHORTCODE>
-      - key: DARAJA_TEST_MSISDN
-        value: <TEST_MSISDN>
+      # ... (Add other backend env vars here) ...
 
-  # --- FRONTEND SERVICE ---
+  # --- FRONTEND (React Static) ---
   - type: web
     name: iot-smart-meter-frontend
     runtime: static
-    # plan: free <-- REMOVED (Static sites are free by default)
+    # plan: free           # <--- CRITICAL: DELETE THIS LINE. 
+                           # Static sites are free by default. 
+                           # Including this line causes the error.
     buildCommand: |
       cd frontend
       npm install
