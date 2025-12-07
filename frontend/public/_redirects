@@ -1,0 +1,5 @@
+# Render SPA Redirect Rules
+# This file fixes the "Not Found" error when refreshing routes
+# All requests are redirected to index.html so React Router can handle routing
+
+/*    /index.html   200

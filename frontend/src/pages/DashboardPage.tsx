@@ -35,16 +35,16 @@ const DashboardPage = () => {
   // Fetch balance via HTTP (fallback when Firebase not configured)
   const fetchBalanceHTTP = async () => {
     if (!user?.meter_no) return;
-    
+
     try {
       setIsLoadingHttpBalance(true);
       console.log(`[Dashboard] Fetching balance for meter: ${user.meter_no}`);
       const balanceData = await getUserBalance(user.meter_no);
       console.log('[Dashboard] Balance data received:', balanceData);
-      
+
       const balance = typeof balanceData.availableUnits === 'number' ? balanceData.availableUnits : parseFloat(String(balanceData.availableUnits)) || 0;
       console.log('[Dashboard] Setting HTTP balance to:', balance);
-      
+
       setHttpBalance(balance);
       setTotalAmountPaid(balanceData.totalAmountPaid || 0);
       setTotalUnitsPurchased(balanceData.totalUnitsPurchased || 0);
@@ -64,7 +64,7 @@ const DashboardPage = () => {
   // Fetch initial transaction stats (non-real-time data)
   const fetchTransactionStats = async () => {
     if (!user?.meter_no) return;
-    
+
     try {
       const balanceData = await getUserBalance(user.meter_no);
       setTotalAmountPaid(balanceData.totalAmountPaid || 0);
@@ -83,14 +83,14 @@ const DashboardPage = () => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-    
+
     return () => clearInterval(timer);
   }, []);
 
   // Fetch meter status (ESP32 connectivity)
   const fetchMeterStatus = async () => {
     if (!user?.meter_no) return;
-    
+
     try {
       const status = await getMeterStatus(user.meter_no);
       setMeterStatus(status);
@@ -113,14 +113,14 @@ const DashboardPage = () => {
     console.log('[Dashboard] Firebase configured:', hasFirebaseConfig);
     console.log('[Dashboard] User ID:', user?.user_id);
     console.log('[Dashboard] Meter No:', user?.meter_no);
-    
+
     if (hasFirebaseConfig) {
       console.log('[Dashboard] Using Firebase real-time mode');
       fetchTransactionStats();
     } else {
       console.log('[Dashboard] Firebase not configured, using HTTP polling for balance');
       fetchBalanceHTTP();
-      
+
       // Poll every 10 seconds when using HTTP fallback
       const interval = setInterval(fetchBalanceHTTP, 10000);
       return () => clearInterval(interval);
@@ -156,12 +156,11 @@ const DashboardPage = () => {
       <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo and Title */}
             <div className="flex items-center gap-3">
               <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2 rounded-lg">
-                <img 
-                  src="/ioticon.png" 
-                  alt="IOT Smart Meter Logo" 
+                <img
+                  src="/favicon.png"
+                  alt="IOT Smart Meter Logo"
                   className="h-6 w-6 object-contain"
                 />
               </div>
@@ -223,7 +222,7 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-bold mb-1">Welcome back, {user.name || 'User'}!</h2>
               <p className="text-indigo-100 text-sm">Make Payments and get account summary</p>
             </div>
-            <Button 
+            <Button
               onClick={() => setIsPaymentModalOpen(true)}
               size="lg"
               className="bg-white hover:bg-gray-100 text-indigo-600 font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
@@ -304,17 +303,17 @@ const DashboardPage = () => {
               <div className="space-y-1">
                 <p className="text-sm font-medium text-gray-600">Current Time</p>
                 <p className="text-2xl font-bold text-gray-900 tabular-nums">
-                  {currentTime.toLocaleTimeString('en-US', { 
-                    hour: '2-digit', 
+                  {currentTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
                     minute: '2-digit',
                     hour12: true
                   })}
                 </p>
                 <p className="text-xs text-gray-500">
-                  {currentTime.toLocaleDateString('en-US', { 
-                    weekday: 'short', 
-                    month: 'short', 
-                    day: 'numeric' 
+                  {currentTime.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
                   })}
                 </p>
               </div>
