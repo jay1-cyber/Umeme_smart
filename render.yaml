@@ -1,0 +1,64 @@
+services:
+  - type: web
+    name: iot-smart-meter-backend
+    env: node
+    plan: starter
+    region: oregon
+    autoDeploy: true
+    buildCommand: |
+      cd backend
+      npm install
+    startCommand: |
+      cd backend
+      npm run dev
+    healthCheckPath: /health
+    numInstances: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: FRONTEND_URL
+        value: https://iot-smart-meter-frontend.onrender.com
+      - key: BACKEND_HOST
+        value: https://iot-smart-meter-backend.onrender.com
+      - key: API_KEY
+        generateValue: true
+      - key: FIREBASE_DATABASE_URL
+        value: <YOUR_FIREBASE_DATABASE_URL>
+      - key: FIREBASE_SA_BASE64
+        value: <BASE64_ENCODED_FIREBASE_SERVICE_ACCOUNT_JSON>
+      - key: MQTT_BROKER_URL
+        value: mqtt://broker.hivemq.com:1883
+      - key: MQTT_USERNAME
+        value: ""
+      - key: MQTT_PASSWORD
+        value: ""
+      - key: UNITS_PER_KES
+        value: "0.05"
+      - key: DARAJA_CONSUMER_KEY
+        value: <YOUR_DARAJA_CONSUMER_KEY>
+      - key: DARAJA_CONSUMER_SECRET
+        value: <YOUR_DARAJA_CONSUMER_SECRET>
+      - key: DARAJA_SHORTCODE
+        value: <YOUR_SHORTCODE>
+      - key: DARAJA_TEST_MSISDN
+        value: <TEST_MSISDN>
+
+  - type: static_site
+    name: iot-smart-meter-frontend
+    buildCommand: |
+      cd frontend
+      npm install
+      npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://iot-smart-meter-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://iot-smart-meter-backend.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
