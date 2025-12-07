@@ -45,7 +45,7 @@ services:
       - key: DARAJA_TEST_MSISDN
         value: <TEST_MSISDN>
 
-  - type: static_site
+  - type: static
     name: iot-smart-meter-frontend
     buildCommand: |
       cd frontend
