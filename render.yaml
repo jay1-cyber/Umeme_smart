@@ -33,23 +33,23 @@ services:
 
   # --- FRONTEND (React Static) ---
   - type: web
-    name: iot-smart-meter-frontend
+    name: umeme-smart-frontend
     runtime: static
-    # plan: free           # <--- CRITICAL: DELETE THIS LINE. 
-                           # Static sites are free by default. 
-                           # Including this line causes the error.
+    region: oregon
     buildCommand: |
       cd frontend
-      npm install
+      rm -rf node_modules/.vite dist
+      npm ci --legacy-peer-deps
       npm run build
+      echo "=== Verifying build output ==="
+      ls -la dist/
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://iot-smart-meter-backend.onrender.com
+        value: https://umeme-smart-backend.onrender.com
+      - key: NODE_ENV
+        value: production
     routes:
-      - type: rewrite
-        source: /api/*
-        destination: https://iot-smart-meter-backend.onrender.com/api/*
       - type: rewrite
         source: /*
         destination: /index.html
