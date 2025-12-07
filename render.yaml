@@ -1,8 +1,9 @@
 services:
+  # --- BACKEND SERVICE ---
   - type: web
     name: iot-smart-meter-backend
-    env: node
-    plan: starter
+    runtime: node                # FIX: 'env' is deprecated/incorrect; use 'runtime'
+    plan: free                   # FIX: explicit free tier (default is paid starter)
     region: oregon
     autoDeploy: true
     buildCommand: |
@@ -10,7 +11,7 @@ services:
       npm install
     startCommand: |
       cd backend
-      npm run dev
+      npm start                  # FIX: Use production start script, not 'dev'
     healthCheckPath: /health
     numInstances: 1
     envVars:
@@ -45,8 +46,11 @@ services:
       - key: DARAJA_TEST_MSISDN
         value: <TEST_MSISDN>
 
-  - type: static
+  # --- FRONTEND SERVICE ---
+  - type: web                    # FIX: Must be 'web'
     name: iot-smart-meter-frontend
+    runtime: static              # FIX: This tells Render it is a Static Site
+    plan: free
     buildCommand: |
       cd frontend
       npm install
@@ -56,9 +60,11 @@ services:
       - key: VITE_API_BASE_URL
         value: https://iot-smart-meter-backend.onrender.com
     routes:
+      # This rewrite is excellent; it proxies API calls to backend to solve CORS
       - type: rewrite
         source: /api/*
         destination: https://iot-smart-meter-backend.onrender.com/api/*
+      # This rewrite supports React Router (SPA fallback)
       - type: rewrite
         source: /*
         destination: /index.html
