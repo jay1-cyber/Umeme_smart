@@ -2,7 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { createTransactionForMeter, findUserIdByMeter, saveCallbackTransaction, calculateUserBalance } = require('./transactions');
-const { simulateC2BPayment } = require('./daraja');
+const { simulateC2BPayment, registerC2BUrl } = require('./daraja');
+const { initiateSTKPush } = require('./daraja-stkpush');
 const { db } = require('./firebase');
 const iotRoutes = require('./routes/iot');
 const mqttService = require('./services/mqttService');
@@ -382,6 +383,99 @@ app.post('/daraja/simulate', async (req, res) => {
     res.status(500).json({ error: `Failed to simulate payment: ${error.message}` });
   }
 });
+// Enable C2B URL Registration
+app.get('/daraja/register', async (req, res) => {
+  try {
+    const result = await registerC2BUrl();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// STK Push initiation endpoint
+app.post('/daraja/stkpush', async (req, res) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] STK Push request received:`, JSON.stringify(req.body, null, 2));
+
+  try {
+    const { phone_number, amount, meter_no } = req.body;
+
+    if (!phone_number || !amount || !meter_no) {
+      return res.status(400).json({
+        error: 'phone_number, amount, and meter_no are required'
+      });
+    }
+
+    // Ensure phone number is in correct format (254XXXXXXXXX)
+    let formattedPhone = phone_number.replace(/\D/g, '');
+    if (formattedPhone.startsWith('0')) {
+      formattedPhone = '254' + formattedPhone.substring(1);
+    } else if (!formattedPhone.startsWith('254')) {
+      formattedPhone = '254' + formattedPhone;
+    }
+
+    console.log(`[${timestamp}] Initiating STK Push to ${formattedPhone} for KES ${amount}`);
+    const stkResponse = await initiateSTKPush(formattedPhone, amount, meter_no);
+
+    console.log(`[${timestamp}] STK Push initiated:`, JSON.stringify(stkResponse, null, 2));
+    res.status(200).json(stkResponse);
+  } catch (error) {
+    console.error(`[${timestamp}] STK Push error:`, error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// STK Push callback endpoint - M-Pesa calls this after user enters PIN
+app.post('/daraja/stkpush/callback', async (req, res) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ===== STK PUSH CALLBACK RECEIVED =====`);
+  console.log(JSON.stringify(req.body, null, 2));
+
+  try {
+    const { Body } = req.body;
+    const stkCallback = Body?.stkCallback;
+
+    if (!stkCallback) {
+      console.error(`[${timestamp}] Invalid callback format`);
+      return res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
+    }
+
+    const resultCode = stkCallback.ResultCode;
+    const resultDesc = stkCallback.ResultDesc;
+
+    console.log(`[${timestamp}] Result Code: ${resultCode}, Description: ${resultDesc}`);
+
+    if (resultCode === 0) {
+      // Payment successful
+      const callbackMetadata = stkCallback.CallbackMetadata?.Item || [];
+
+      const amount = callbackMetadata.find(item => item.Name === 'Amount')?.Value;
+      const mpesaReceiptNumber = callbackMetadata.find(item => item.Name === 'MpesaReceiptNumber')?.Value;
+      const phoneNumber = callbackMetadata.find(item => item.Name === 'PhoneNumber')?.Value;
+
+      // Extract meter number from CheckoutRequestID or use a mapping
+      // For now, we'll need to store CheckoutRequestID -> meter_no mapping
+      const checkoutRequestID = stkCallback.CheckoutRequestID;
+
+      console.log(`[${timestamp}] Payment SUCCESS: Amount=${amount}, Receipt=${mpesaReceiptNumber}`);
+
+      // You'll need to implement a way to map CheckoutRequestID to meter_no
+      // For now, log the success
+      console.log(`[${timestamp}] TODO: Map CheckoutRequestID ${checkoutRequestID} to meter_no`);
+
+    } else {
+      // Payment failed or cancelled
+      console.log(`[${timestamp}] Payment FAILED/CANCELLED: ${resultDesc}`);
+    }
+
+    res.status(200).json({ ResultCode: 0, ResultDesc: 'Success' });
+  } catch (error) {
+    console.error(`[${timestamp}] Callback processing error:`, error.message);
+    res.status(200).json({ ResultCode: 0, ResultDesc: 'Accepted' });
+  }
+});
+
 // app.use('/api/iot', iotRoutes);
 app.get('/meter/:meterNo/balance', async (req, res) => {
   try {

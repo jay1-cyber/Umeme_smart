@@ -8,18 +8,18 @@ const { db } = require('./firebase');
 async function findUserIdByMeter(meterNo) {
   try {
     console.log(`Searching for user with meter_no: ${meterNo}`);
-    
+
     const usersRef = db.ref('users');
     const snapshot = await usersRef.orderByChild('meter_no').equalTo(meterNo).once('value');
-    
+
     if (!snapshot.exists()) {
       console.log(`No user found with meter_no: ${meterNo}`);
       return null;
     }
-    
+
     const users = snapshot.val();
     const userId = Object.keys(users)[0]; // Get first matching user
-    
+
     console.log(`Found user ${userId} for meter_no: ${meterNo}`);
     return userId;
   } catch (error) {
@@ -47,21 +47,21 @@ function calculateUnits(amount) {
 async function createTransactionForMeter(meterNo, amount, status = 'SUCCESS', reference = null) {
   try {
     console.log(`Creating transaction for meter ${meterNo}, amount: ${amount}, status: ${status}`);
-    
+
     // Find user by meter number
     const userId = await findUserIdByMeter(meterNo);
     if (!userId) {
       throw new Error(`No user found with meter_no: ${meterNo}`);
     }
-    
+
     // Calculate units
     const units = calculateUnits(amount);
     const remainder = parseFloat(amount) % 25;
-    
+
     // Generate transaction ID and create transaction object
     const transactionRef = db.ref('transactions').push();
     const transactionId = transactionRef.key;
-    
+
     const transaction = {
       transaction_id: transactionId,
       user_id: userId,
@@ -73,22 +73,22 @@ async function createTransactionForMeter(meterNo, amount, status = 'SUCCESS', re
       timestamp: new Date().toISOString(),
       reference: reference // Store the OriginatorCoversationID for callback matching
     };
-    
+
     // Write transaction to database
     await transactionRef.set(transaction);
     console.log(`Created transaction ${transactionId} for user ${userId}: ${units} units (${remainder.toFixed(2)} remainder)`);
-    
+
     // Update user's latest_transaction_id if successful
     if (status === 'SUCCESS') {
       const userRef = db.ref(`users/${userId}`);
-      
+
       // Get current balance
       const currentBalanceSnap = await userRef.child('balance').once('value');
       const currentBalance = parseFloat(currentBalanceSnap.val() || 0);
-      
+
       // Add new units to current balance (incremental update)
       const newBalance = parseFloat((currentBalance + units).toFixed(2));
-      
+
       await userRef.update({
         latest_transaction_id: transactionId,
         last_payment_timestamp: transaction.timestamp,
@@ -96,16 +96,16 @@ async function createTransactionForMeter(meterNo, amount, status = 'SUCCESS', re
         last_units_purchased: units,
         balance: newBalance  // Increment balance instead of recalculating
       });
-      
+
       console.log(`✅ Updated user ${userId} with latest_transaction_id: ${transactionId}`);
       console.log(`💰 Balance updated: ${currentBalance} + ${units} = ${newBalance} units`);
       console.log(`✅ FIREBASE BALANCE UPDATED: User ${userId} balance set to ${newBalance} units`);
-      
+
       // Verify the update by reading it back
       const verifySnapshot = await userRef.child('balance').once('value');
       console.log(`🔍 Verification - Balance in Firebase: ${verifySnapshot.val()}`);
     }
-    
+
     return transaction;
   } catch (error) {
     console.error('Error creating transaction:', error.message);
@@ -121,10 +121,10 @@ async function createTransactionForMeter(meterNo, amount, status = 'SUCCESS', re
 async function transactionExists(mpesaReceiptNumber) {
   try {
     if (!mpesaReceiptNumber) return false;
-    
+
     const transactionsRef = db.ref('transactions');
     const snapshot = await transactionsRef.orderByChild('mpesa_receipt').equalTo(mpesaReceiptNumber).once('value');
-    
+
     return snapshot.exists();
   } catch (error) {
     console.error('Error checking transaction existence:', error.message);
@@ -140,14 +140,14 @@ async function transactionExists(mpesaReceiptNumber) {
 async function findTransactionByReference(reference) {
   try {
     if (!reference) return null;
-    
+
     const transactionsRef = db.ref('transactions');
     const snapshot = await transactionsRef.orderByChild('reference').equalTo(reference).once('value');
-    
+
     if (!snapshot.exists()) {
       return null;
     }
-    
+
     const transactions = snapshot.val();
     const transactionId = Object.keys(transactions)[0];
     return {
@@ -208,10 +208,10 @@ async function calculateAvailableUnits(userId) {
 async function calculateUserBalance(userId) {
   try {
     console.log(`Calculating balance for user: ${userId}`);
-    
+
     const transactionsRef = db.ref('transactions');
     const snapshot = await transactionsRef.orderByChild('user_id').equalTo(userId).once('value');
-    
+
     if (!snapshot.exists()) {
       console.log(`No transactions found for user ${userId}`);
       return {
@@ -221,12 +221,12 @@ async function calculateUserBalance(userId) {
         transactionCount: 0
       };
     }
-    
+
     const transactions = snapshot.val();
     let totalAmountPaid = 0;
     let totalUnitsPurchased = 0;
     let successfulTransactions = 0;
-    
+
     Object.values(transactions).forEach(transaction => {
       // Only count successful transactions
       if (transaction.status === 'SUCCESS' || transaction.status === 'completed') {
@@ -235,10 +235,10 @@ async function calculateUserBalance(userId) {
         successfulTransactions++;
       }
     });
-    
+
     // Calculate available units (purchased - consumed)
     const availableUnits = await calculateAvailableUnits(userId);
-    
+
     console.log(`User ${userId}: ${successfulTransactions} successful transactions, total paid: ${totalAmountPaid}, purchased units: ${totalUnitsPurchased}, available units: ${availableUnits}`);
     return {
       totalAmountPaid: parseFloat(totalAmountPaid.toFixed(2)),
@@ -265,7 +265,7 @@ async function calculateUserBalance(userId) {
 async function saveCallbackTransaction(callbackData) {
   try {
     console.log('Processing Daraja callback:', JSON.stringify(callbackData, null, 2));
-    
+
     // Extract fields from callback data with fallbacks for different payload formats
     const resultCode = callbackData.ResultCode || callbackData.resultCode || 1;
     const resultDesc = callbackData.ResultDesc || callbackData.resultDesc || 'Unknown result';
@@ -274,14 +274,22 @@ async function saveCallbackTransaction(callbackData) {
     const transactionDate = callbackData.TransactionDate || callbackData.transactionDate || new Date().toISOString();
     const billRefNumber = callbackData.BillRefNumber || callbackData.billRefNumber || callbackData.AccountReference;
     const phoneNumber = callbackData.PhoneNumber || callbackData.phoneNumber || callbackData.MSISDN;
-    
+
     console.log(`Extracted data: ResultCode=${resultCode}, Amount=${amount}, BillRefNumber=${billRefNumber}, MpesaReceipt=${mpesaReceiptNumber}`);
-    
+
     // Check for required fields
     if (!billRefNumber) {
-      throw new Error('BillRefNumber (meter_no) is required but not found in callback');
+      // If It's a validation check from Daraja (no bill ref), just return success to pass the check
+      console.log('Validation check received (no BillRefNumber). Returning valid response.');
+      return {
+        success: true,
+        duplicate: false,
+        message: 'Validation accepted',
+        transaction_id: null,
+        status: 'VALIDATION'
+      };
     }
-    
+
     // Check for duplicate transaction by MpesaReceiptNumber
     if (mpesaReceiptNumber && await transactionExists(mpesaReceiptNumber)) {
       console.log(`Transaction with MpesaReceiptNumber ${mpesaReceiptNumber} already exists. Skipping.`);
@@ -292,25 +300,25 @@ async function saveCallbackTransaction(callbackData) {
         transaction_id: null
       };
     }
-    
+
     // Try to find existing transaction by reference (for updates)
     const conversationId = callbackData.OriginatorCoversationID || callbackData.originatorCoversationID;
     let existingTransaction = null;
-    
+
     if (conversationId) {
       existingTransaction = await findTransactionByReference(conversationId);
       console.log(`Found existing transaction for reference ${conversationId}:`, existingTransaction?.id);
     }
-    
+
     // Find user by meter number
     const userId = await findUserIdByMeter(billRefNumber);
     if (!userId) {
       throw new Error(`No user found with meter_no: ${billRefNumber}`);
     }
-    
+
     // Determine transaction status
     const status = resultCode === 0 ? 'SUCCESS' : 'FAILED';
-    
+
     // Format transaction date to ISO string
     let formattedTimestamp;
     try {
@@ -330,10 +338,10 @@ async function saveCallbackTransaction(callbackData) {
       console.warn('Error parsing transaction date, using current time:', error.message);
       formattedTimestamp = new Date().toISOString();
     }
-    
+
     let transactionId;
     let transaction;
-    
+
     if (existingTransaction) {
       // Update existing transaction
       transactionId = existingTransaction.id;
@@ -347,7 +355,7 @@ async function saveCallbackTransaction(callbackData) {
         timestamp: formattedTimestamp,
         raw_callback: callbackData // Store full payload for auditing
       };
-      
+
       const transactionRef = db.ref(`transactions/${transactionId}`);
       await transactionRef.update({
         status: status,
@@ -363,7 +371,7 @@ async function saveCallbackTransaction(callbackData) {
       // Create new transaction
       const transactionRef = db.ref('transactions').push();
       transactionId = transactionRef.key;
-      
+
       transaction = {
         transaction_id: transactionId,
         user_id: userId,
@@ -377,11 +385,11 @@ async function saveCallbackTransaction(callbackData) {
         timestamp: formattedTimestamp,
         raw_callback: callbackData // Store full payload for auditing
       };
-      
+
       await transactionRef.set(transaction);
       console.log(`Created new transaction ${transactionId} for user ${userId} with status ${status}`);
     }
-    
+
     // Update user's latest_transaction_id only for successful transactions
     if (status === 'SUCCESS') {
       const userRef = db.ref(`users/${userId}`);
@@ -401,7 +409,7 @@ async function saveCallbackTransaction(callbackData) {
         console.warn(`Failed to update user ${userId} balance after callback processing:`, err.message);
       }
     }
-    
+
     return {
       success: true,
       duplicate: false,
@@ -409,7 +417,7 @@ async function saveCallbackTransaction(callbackData) {
       transaction_id: transactionId,
       status: status
     };
-    
+
   } catch (error) {
     console.error('Error saving callback transaction:', error.message);
     return {

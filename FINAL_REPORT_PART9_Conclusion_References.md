@@ -2,243 +2,88 @@
 
 ## 5.1 Conclusion
 
-This research successfully designed, developed, and validated an IoT-enabled automatic recharge system for Kenyan prepaid meters, achieving all stated objectives and demonstrating significant improvements over existing systems.
+This research successfully designed, developed, and validated an IoT-enabled automatic recharge system for Kenyan prepaid meters, achieving all stated objectives.
 
 ### 5.1.1 Summary of Achievements
 
-**Technical Achievements:**
-
-The project delivered a complete, functional smart metering ecosystem comprising:
-
-1. **ESP32-Based Smart Meter Prototype:** A cost-effective (KES 2,660) hardware implementation demonstrating real-time balance monitoring, automated load control, and bidirectional IoT communication. The prototype achieved 100% accuracy in balance tracking and load switching across 500+ test cycles.
-
-2. **Cloud Backend Infrastructure:** A robust Node.js backend successfully integrated M-Pesa Daraja API, Firebase Realtime Database, and MQTT communication protocols. The system processed automated recharges in an average of 1.8 seconds—60 times faster than traditional manual token entry.
-
-3. **User-Friendly Dashboard:** A modern, responsive web application built with React and TypeScript, achieving excellent performance scores (94/100 Lighthouse) and 96% user satisfaction in testing.
-
-4. **Seamless M-Pesa Integration:** The first documented implementation in academic literature of fully automated prepaid meter recharging through M-Pesa without manual token entry, addressing a critical gap in Kenya's electricity distribution system.
+1. **ESP32-Based Prototype:** Cost-effective (KES 3,440) hardware with 100% load control accuracy
+2. **Cloud Backend:** Node.js with M-Pesa Daraja API integration, 2.3-second average recharge processing
+3. **User Dashboard:** React/TypeScript application with 94/100 Lighthouse score and 4.8/5.0 user satisfaction
+4. **M-Pesa Integration:** First documented fully automated prepaid meter recharging without manual token entry
 
 ### 5.1.2 Objective Fulfillment
 
-**Main Objective:** *To design, develop, and evaluate an IoT-enabled automatic recharge system for Kenyan prepaid meters based on AMI principles.*
-
-✅ **ACHIEVED:** The system eliminates all manual interventions in the recharge process while demonstrating core AMI capabilities (two-way communication, remote control, real-time monitoring) using affordable technology.
-
-**Specific Objectives:**
-
 | Objective | Status | Evidence |
 |-----------|--------|----------|
-| Design ESP32-based meter prototype | ✅ Achieved | Functional prototype with all features operational |
-| Develop cloud backend with M-Pesa integration | ✅ Achieved | Backend processes payments automatically, 99.7% uptime |
-| Create user dashboard | ✅ Achieved | Dashboard scores 94/100 performance, 96% user satisfaction |
-| Validate system functionality | ✅ Achieved | Comprehensive testing shows 100% transaction accuracy |
+| ESP32-based meter prototype | ✅ Achieved | Functional with all features operational |
+| Cloud backend with M-Pesa | ✅ Achieved | 99.7% uptime, automatic payment processing |
+| User dashboard | ✅ Achieved | 4.8/5.0 user satisfaction |
+| System validation | ✅ Achieved | 100% transaction accuracy |
 
 ### 5.1.3 Key Findings
 
-**1. Technical Feasibility Confirmed**
+- **Technical Feasibility:** Advanced smart metering achievable with affordable components (ESP32, Firebase, M-Pesa API)
+- **Performance:** 3-6 second recharge vs. 3-5 minutes traditional; <0.5% error rate vs. 15-20%
+- **Cost:** 57-86% cheaper than commercial alternatives (KES 3,440 vs. KES 8,000-25,000)
+- **User Acceptance:** 4.8/5.0 rating; users appreciated elimination of token entry frustration
 
-Advanced smart metering functionality can be implemented using affordable, commercially available components (ESP32, Firebase, M-Pesa API) without requiring prohibitively expensive infrastructure.
+### 5.1.4 Limitations
 
-**2. Significant Performance Improvements**
-
-Compared to traditional prepaid systems:
-- **60x faster recharge process** (3-6 seconds vs. 3-5 minutes)
-- **40x lower error rate** (<0.5% vs. 15-20%)
-- **80% reduction in manual steps** (1 vs. 4-6 steps)
-
-**3. Cost Effectiveness Demonstrated**
-
-The solution costs 78-93% less than commercial smart meters (KES 1,750 vs. KES 8,000-25,000) while delivering comparable or superior functionality. Estimated utility operational savings: KES 10.7 million annually per 10,000 meters.
-
-**4. High User Acceptance**
-
-Test users rated the system 4.8/5.0 overall, with particular appreciation for:
-- Elimination of token entry frustration
-- Real-time consumption visibility
-- One-click M-Pesa recharge convenience
-
-**5. Market Viability in Kenya**
-
-The system addresses Kenya-specific challenges (CIU failures, SMS delays, M-Pesa ubiquity) better than off-the-shelf international solutions. It aligns with national digital transformation goals and Kenya Vision 2030 objectives.
-
-### 5.1.4 Research Contributions
-
-This project makes significant contributions to knowledge and practice:
-
-**Academic Contributions:**
-1. First documented end-to-end IoT prepaid meter system with full M-Pesa automation in academic literature
-2. Complete system architecture spanning hardware, firmware, cloud backend, database design, and user interface
-3. Performance benchmarking and cost analysis tailored to developing economy contexts
-
-**Practical Contributions:**
-1. Proof-of-concept ready for pilot deployment by KPLC or other utilities
-2. Open-source potential to accelerate smart grid adoption across Africa
-3. Demonstrated pathway from academic research to commercial product
-
-**Social Contributions:**
-1. Solution designed for inclusivity—benefiting elderly, disabled, and technologically inexperienced users
-2. Reduction in consumer frustration and service disruptions
-3. Enhancement of quality of life through reliable electricity access
-
-### 5.1.5 Limitations Acknowledged
-
-While the project successfully achieved its objectives, certain limitations are acknowledged:
-
-**1. Prototype Scale**
-
-The system was tested with a single meter prototype. While the architecture is designed for scalability, large-scale deployment (thousands of meters) has not been validated. Network infrastructure, database performance, and cloud costs at scale require further investigation.
-
-**2. Regulatory Compliance**
-
-The prototype has not undergone formal certification by the Energy and Petroleum Regulatory Authority (EPRA) or obtained Kenya Bureau of Standards (KEBS) approval. Commercial deployment would require these certifications.
-
-**3. Cybersecurity**
-
-While basic security measures (HTTPS, authentication, encryption) are implemented, comprehensive penetration testing and formal security audits have not been conducted. Production deployment would require enhanced security protocols.
-
-**4. Long-Term Reliability**
-
-Hardware durability testing was limited to 30 days. Long-term reliability (1-5 years) in harsh environmental conditions (temperature extremes, humidity, power surges) requires extended field testing.
-
-**5. Integration with Existing Meters**
-
-The project developed a standalone prototype rather than retrofitting existing KPLC meters. Integration with installed meter base would require additional development.
-
-**6. Sandbox Testing Only**
-
-M-Pesa integration was tested exclusively in Safaricom's sandbox environment. Live production API testing with actual financial transactions awaits pilot deployment approval.
-
-Despite these limitations, the proof-of-concept successfully demonstrates technical feasibility, economic viability, and consumer acceptance—the critical prerequisites for future development.
+1. **Prototype Scale:** Single meter tested; large-scale deployment not validated
+2. **Regulatory:** No EPRA/KEBS certification
+3. **Sandbox Only:** M-Pesa tested in sandbox, not production
+4. **30-Day Testing:** Long-term reliability requires extended field testing
 
 ## 5.2 Recommendations
 
 ### 5.2.1 For Immediate Implementation
 
-**1. Pilot Deployment**
+1. **Pilot Deployment:** KPLC should deploy 500-1,000 meters in a controlled environment to validate scalability before mass rollout.
 
-**Recommendation:** KPLC should conduct a pilot deployment of 500-1,000 meters in a controlled environment (e.g., university campus, residential estate, commercial area).
+2. **Safaricom Partnership:** Establish formal partnership for production M-Pesa API access and technical support.
 
-**Rationale:** Validate scalability, identify operational challenges, and gather real-world performance data before mass rollout.
-
-**Implementation Plan:**
-- Select pilot site with reliable 4G connectivity
-- Install prototype meters on 500 willing customers
-- Monitor system performance for 6 months
-- Collect user feedback through surveys
-- Document lessons learned for optimization
-
-**Expected Outcome:** Data-driven decision on full-scale deployment feasibility.
-
-**2. Partnership with Safaricom**
-
-**Recommendation:** Establish formal partnership with Safaricom to integrate the system with production M-Pesa infrastructure.
-
-**Benefits:**
-- Access to production Daraja API
-- Potential co-branding opportunity
-- Technical support and SLA guarantees
-- Marketing reach to M-Pesa's 32 million users
-
-**3. Open-Source Release**
-
-**Recommendation:** Release the firmware, backend code, and hardware designs as open-source under an appropriate license (e.g., MIT, Apache 2.0).
-
-**Benefits:**
-- Accelerate adoption by other utilities across Africa
-- Attract developer community contributions
-- Enhance system security through public code review
-- Establish thought leadership in smart grid innovation
+3. **Open-Source Release:** Release firmware and backend code under MIT/Apache license to accelerate adoption across Africa.
 
 ### 5.2.2 For Future Development
 
-**1. Enhanced Features**
+**Enhanced Features:**
+- Time-of-use tariffing for peak/off-peak pricing
+- Predictive analytics for consumption forecasting
+- Renewable energy integration (solar net metering)
+- Additional payment gateways (T-Kash, bank cards)
 
-**Time-of-Use Tariffing:** Implement variable pricing based on time of day (peak vs. off-peak) to incentivize load shifting and reduce grid stress.
+**Hardware Upgrades:**
+- IP65 weatherproof enclosures
+- Battery backup for outage monitoring
+- LoRaWAN for rural deployment
+- Tamper detection sensors
 
-**Predictive Analytics:** Use machine learning to forecast consumption patterns, predict when balance will deplete, and proactively suggest recharge amounts.
-
-**Renewable Energy Integration:** Support bi-directional metering for customers with solar panels, enabling net metering and feed-in tariffs.
-
-**Demand Response Programs:** Allow utilities to remotely manage loads during grid emergencies in exchange for customer incentives.
-
-**Multiple Payment Gateways:** Integrate additional payment methods (Airtel Money, T-Kash, bank cards) to reduce dependence on M-Pesa.
-
-**2. Advanced Hardware**
-
-**Weatherproof Enclosure:** Design IP65-rated enclosures for outdoor installation in harsh environments.
-
-**Battery Backup:** Integrate rechargeable battery (18650 lithium cells) for 24-hour operation during power outages, ensuring continuous monitoring.
-
-**LoRaWAN Communication:** Implement LoRaWAN as backup to Wi-Fi for extended range (5-10km) and reduced power consumption in rural areas.
-
-**Tamper Detection:** Add accelerometer and magnetic field sensors to detect and report tampering attempts in real-time.
-
-**3. Scalability Enhancements**
-
-**Edge Computing:** Implement local data processing to reduce cloud dependency and latency for time-critical operations.
-
-**Mesh Networking:** Enable meters to relay data for neighbors, reducing cellular data costs and improving coverage.
-
-**Database Optimization:** Migrate from Firebase Realtime Database to Cloud Firestore or PostgreSQL for better query performance at scale (millions of meters).
-
-**CDN Integration:** Use Content Delivery Networks for dashboard assets to reduce load times globally.
-
-**4. Business Model Development**
-
-**SaaS Offering:** Develop Software-as-a-Service model where utilities pay monthly per-meter fees (KES 50-100/meter/month) instead of upfront hardware costs.
-
-**Financing Options:** Partner with financial institutions to offer lease-to-own or pay-as-you-go meter financing for utilities.
-
-**Value-Added Services:** Offer premium features (detailed analytics, custom alerts, consumption forecasting) as paid add-ons.
+**Scalability:**
+- Edge computing for reduced latency
+- Mesh networking for coverage extension
+- Database migration to PostgreSQL for millions of meters
 
 ### 5.2.3 For Policy and Regulation
 
-**1. Regulatory Framework**
-
-**Recommendation to EPRA:** Develop clear certification standards for IoT smart meters, including cybersecurity requirements, interoperability standards, and consumer data protection guidelines.
-
-**Recommendation to Government:** Provide tax incentives or subsidies for smart meter deployment to accelerate adoption (similar to solar energy incentives).
-
-**2. Standardization**
-
-**Recommendation:** Participate in development of East African Community (EAC) or African Union standards for smart metering to ensure interoperability across borders.
-
-**3. Consumer Education**
-
-**Recommendation:** Launch nationwide awareness campaigns on smart meter benefits, privacy protections, and usage optimization to build public acceptance.
+- EPRA should develop certification standards for IoT smart meters
+- Government incentives for smart meter adoption
+- EAC standardization for cross-border interoperability
+- Consumer education campaigns on smart meter benefits
 
 ### 5.2.4 For Academic Research
 
-**1. Blockchain Integration**
-
-Investigate blockchain technology for immutable transaction records, enabling peer-to-peer energy trading in future microgrids.
-
-**2. AI/ML Applications**
-
-Develop machine learning models for:
-- Non-technical loss detection (fraud, theft)
-- Consumption pattern anomaly detection
-- Predictive maintenance of grid infrastructure
-
-**3. Environmental Impact Assessment**
-
-Conduct comprehensive life-cycle analysis of smart meters' environmental footprint compared to traditional meters, including e-waste considerations.
-
-**4. Social Science Research**
-
-Study the sociological impacts of smart meters on energy consumption behavior, household budgeting, and quality of life in different socio-economic groups.
+- Blockchain for peer-to-peer energy trading
+- Machine learning for fraud detection and predictive maintenance
+- Environmental life-cycle analysis
+- Social impact studies on energy consumption behavior
 
 ## 5.3 Final Remarks
 
-This research has demonstrated that innovative, locally-developed solutions leveraging existing digital infrastructure (M-Pesa, mobile internet) can address pressing challenges in Kenya's electricity sector more effectively and affordably than imported technologies.
+This research demonstrates that locally-developed solutions leveraging M-Pesa and affordable IoT components can address Kenya's electricity challenges more effectively than imported technologies. The system eliminates token entry frustration, reduces service disruptions, and empowers consumers with real-time data.
 
-The IoT-enabled automatic recharge system represents a paradigm shift from reactive, error-prone manual processes to proactive, automated service delivery. By eliminating the frustration of token entry, reducing service disruptions, and empowering consumers with real-time data, this system has the potential to transform the prepaid electricity experience for millions of Kenyans.
+The path from prototype to national deployment requires collaboration among universities, utilities, regulators, and government. This project provides the technical foundation—stakeholder commitment will determine its realization.
 
-Beyond technical achievements, this project embodies the principle of "appropriate technology"—solutions designed for local contexts, using local resources, to solve local problems. As Kenya continues its journey toward Vision 2030 and sustainable development, innovations like this will be critical to achieving universal energy access, economic growth, and improved quality of life.
-
-The path from prototype to national deployment requires collaboration among universities (research and development), utilities (operational expertise), regulators (standards and compliance), technology companies (infrastructure), and government (policy support). This project provides the technical foundation; stakeholder commitment will determine whether its potential is realized.
-
-We conclude with confidence that this system is not only technically feasible and economically viable but also socially necessary. The future of Kenya's electricity distribution lies in smart, connected, automated systems—and that future can begin today.
+The future of Kenya's electricity distribution lies in smart, connected, automated systems. That future can begin today.
 
 ---
 

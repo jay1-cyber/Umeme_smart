@@ -46,7 +46,7 @@ async function simulateC2BPayment(meterNo, amount) {
     console.log('Step 1: Getting access token...');
     const accessToken = await getAccessToken();
     console.log('Step 2: Access token obtained successfully');
-    
+
     const shortCode = process.env.DARAJA_SHORTCODE;
     const msisdn = process.env.DARAJA_TEST_MSISDN;
 
@@ -88,7 +88,51 @@ async function simulateC2BPayment(meterNo, amount) {
   }
 }
 
+/**
+ * Register C2B URL
+ * @returns {Promise<Object>} Daraja API response
+ */
+async function registerC2BUrl() {
+  try {
+    const accessToken = await getAccessToken();
+    const shortCode = process.env.DARAJA_SHORTCODE;
+    const callbackUrl = process.env.DARAJA_CALLBACK_URL;
+
+    if (!shortCode || !callbackUrl) {
+      throw new Error('Daraja ShortCode or Callback URL not set in .env');
+    }
+
+    // Determine command ID based on shortcode type (assuming Paybill for now)
+    // For Sandbox 174379, it works as CustomerPayBillOnline
+    const payload = {
+      ShortCode: shortCode,
+      ResponseType: 'Completed', // or 'Cancelled'
+      ConfirmationURL: callbackUrl,
+      ValidationURL: callbackUrl, // Using same URL for validation for simplicity
+    };
+
+    console.log('Registering C2B URL with payload:', JSON.stringify(payload, null, 2));
+
+    const response = await darajaApi.post('/mpesa/c2b/v1/registerurl', payload, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log('C2B URL registration response:', JSON.stringify(response.data, null, 2));
+    return response.data;
+  } catch (error) {
+    console.error('Error registering C2B URL:');
+    if (error.response) {
+      console.error('- Response status:', error.response.status);
+      console.error('- Response data:', JSON.stringify(error.response.data, null, 2));
+    }
+    throw new Error(`Failed to register C2B URL: ${error.message}`);
+  }
+}
+
 module.exports = {
   getAccessToken,
   simulateC2BPayment,
+  registerC2BUrl,
 };
