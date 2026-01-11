@@ -65,7 +65,7 @@ This research successfully designed, developed, and validated an IoT-enabled aut
 
 ### 5.2.3 For Policy and Regulation
 
-- EPRA should develop certification standards for IoT smart meters
+- EPRA should develop certification standards for Umeme Smart Meters
 - Government incentives for smart meter adoption
 - EAC standardization for cross-border interoperability
 - Consumer education campaigns on smart meter benefits

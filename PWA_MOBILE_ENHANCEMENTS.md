@@ -18,12 +18,12 @@ Implemented Progressive Web App (PWA) functionality with install prompts, improv
 <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2 rounded-lg">
   <img 
     src="/ioticon.png" 
-    alt="IOT Smart Meter Logo" 
+    alt="Umeme Smart Meter Logo" 
     className="h-6 w-6 object-contain"
   />
 </div>
 <div>
-  <h1 className="text-base sm:text-lg font-bold text-gray-900">IOT Smart Meter</h1>
+  <h1 className="text-base sm:text-lg font-bold text-gray-900">Umeme Smart Meter</h1>
   <p className="text-xs text-gray-600 hidden sm:block">Meter #{user.meter_no}</p>
 </div>
 ```
@@ -34,7 +34,7 @@ Progressive Web App configuration for "Add to Home Screen" functionality.
 **File**: `frontend/public/manifest.json`
 
 **Features**:
-- App name: "IOT Smart Meter"
+- App name: "Umeme Smart Meter"
 - Short name: "Smart Meter"
 - Standalone display mode (full-screen app experience)
 - Theme color: Indigo (#4F46E5)

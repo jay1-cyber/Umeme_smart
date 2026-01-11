@@ -160,12 +160,12 @@ const DashboardPage = () => {
               <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-2 rounded-lg">
                 <img
                   src="/favicon.png"
-                  alt="IOT Smart Meter Logo"
+                  alt="Umeme Smart Meter Logo"
                   className="h-6 w-6 object-contain"
                 />
               </div>
               <div>
-                <h1 className="text-base sm:text-lg font-bold text-gray-900">IOT Smart Meter</h1>
+                <h1 className="text-base sm:text-lg font-bold text-gray-900">Umeme Smart Meter</h1>
                 <p className="text-xs text-gray-600 hidden sm:block">Meter #{user.meter_no}</p>
               </div>
             </div>

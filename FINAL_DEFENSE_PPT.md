@@ -510,7 +510,7 @@ To design and implement an **IoT-enabled automatic recharge system** that seamle
 
 ```
 ┌──────────────────────┐
-│   IoT Smart Meter    │
+│   Umeme Smart Meter    │
 │──────────────────────│
 │   KES 347.50         │
 │                      │

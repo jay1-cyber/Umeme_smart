@@ -1,6 +1,6 @@
 # M-Pesa Daraja Firebase Middleware
 
-A Node.js middleware service that receives M-Pesa Daraja API callbacks and stores transaction data in Firebase Realtime Database. This service maps meter numbers to user IDs and maintains transaction records for IoT smart meter systems.
+A Node.js middleware service that receives M-Pesa Daraja API callbacks and stores transaction data in Firebase Realtime Database. This service maps meter numbers to user IDs and maintains transaction records for Umeme Smart Meter systems.
 
 ## Features
 

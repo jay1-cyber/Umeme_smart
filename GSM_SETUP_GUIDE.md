@@ -113,7 +113,7 @@ Add test code in `setup()`:
 ```cpp
 // After GSM initialization
 if (gsmConnected) {
-  sendSMS("+254712345678", "Test SMS from IOT Smart Meter");
+  sendSMS("+254712345678", "Test SMS from Umeme Smart Meter");
 }
 ```
 

@@ -1,4 +1,4 @@
-# MQTT Architecture for IoT Smart Meter
+# MQTT Architecture for Umeme Smart Meter
 
 ## System Overview
 
@@ -658,4 +658,4 @@ void testRelayControl() {
 
 **Document Version**: 1.0  
 **Last Updated**: October 2024  
-**Maintained By**: IoT Smart Meter Team
+**Maintained By**: Umeme Smart Meter Team

@@ -2,7 +2,7 @@
 
 ## 🚀 What's New
 
-Your IoT Smart Meter system now has **real-time balance synchronization**! No more refreshing your browser - balance updates automatically as your ESP32 consumes power.
+Your Umeme Smart Meter system now has **real-time balance synchronization**! No more refreshing your browser - balance updates automatically as your ESP32 consumes power.
 
 ---
 

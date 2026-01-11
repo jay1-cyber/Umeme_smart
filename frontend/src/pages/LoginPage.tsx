@@ -15,7 +15,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [meterNo, setMeterNo] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Registration modal state
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [registerData, setRegisterData] = useState({
@@ -25,14 +25,14 @@ const LoginPage = () => {
     phone_number: ''
   });
   const [isRegistering, setIsRegistering] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email.trim() || !meterNo.trim()) {
       toast({
         title: "Validation Error",
@@ -47,11 +47,11 @@ const LoginPage = () => {
     try {
       // Call backend API for authentication
       const userData = await loginUser(email, meterNo);
-      
+
       // Login successful - store user data and navigate
       login(userData);
       navigate('/dashboard');
-      
+
       toast({
         title: "Login Successful",
         description: `Welcome back, ${userData.name}!`,
@@ -59,7 +59,7 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Login error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to connect to server';
-      
+
       toast({
         title: "Login Failed",
         description: errorMessage,
@@ -72,8 +72,8 @@ const LoginPage = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!registerData.name.trim() || !registerData.email.trim() || !registerData.meter_no.trim() || !registerData.phone_number.trim() ) {
+
+    if (!registerData.name.trim() || !registerData.email.trim() || !registerData.meter_no.trim() || !registerData.phone_number.trim()) {
       toast({
         title: "Validation Error",
         description: "Please fill in all fields",
@@ -98,7 +98,7 @@ const LoginPage = () => {
       }
 
       const newUser = await response.json();
-      
+
       toast({
         title: "Registration Successful",
         description: `User ${registerData.name} has been registered with meter ${registerData.meter_no}`,
@@ -112,7 +112,7 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Registration error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to register user';
-      
+
       toast({
         title: "Registration Failed",
         description: errorMessage,
@@ -134,18 +134,18 @@ const LoginPage = () => {
       <div className="relative min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-8 lg:p-12">
         <div className="w-full max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 items-center">
-            
+
             {/* Left side - Hero section */}
             <div className="space-y-4 sm:space-y-6 text-center lg:text-left order-2 lg:order-1 animate-fade-in">
               <div className="space-y-3 sm:space-y-4">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  IOT Smart Meter
+                  Umeme Smart Meter
                 </h1>
                 <p className="text-lg sm:text-xl md:text-2xl text-gray-600 font-light">
                   Intelligent Energy Management
                 </p>
               </div>
-              
+
               <div className="space-y-3 max-w-md mx-auto lg:mx-0">
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">
                   Monitor your energy consumption in real-time, track usage patterns, and optimize your power efficiency with our advanced smart meter system.
@@ -179,7 +179,7 @@ const LoginPage = () => {
                     Sign in to access your dashboard
                   </CardDescription>
                 </CardHeader>
-                
+
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="space-y-2">
@@ -197,7 +197,7 @@ const LoginPage = () => {
                         className="h-11 bg-white/50 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 transition-all"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="meterNo" className="text-sm font-medium text-gray-700">
                         Meter Number
@@ -214,9 +214,9 @@ const LoginPage = () => {
                       />
                     </div>
 
-                    <Button 
-                      type="submit" 
-                      className="w-full h-11 bg-gradient-to-r from-gray-900 to-black hover:from-black hover:to-gray-900 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]" 
+                    <Button
+                      type="submit"
+                      className="w-full h-11 bg-gradient-to-r from-gray-900 to-black hover:from-black hover:to-gray-900 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
                       disabled={isLoading}
                     >
                       {isLoading ? (
@@ -229,13 +229,13 @@ const LoginPage = () => {
                       )}
                     </Button>
                   </form>
-                  
+
                   {/* Register User Button */}
                   <div className="mt-6 pt-6 border-t border-gray-200/60">
                     <Dialog open={isRegisterModalOpen} onOpenChange={setIsRegisterModalOpen}>
                       <DialogTrigger asChild>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           className="w-full h-11 border-gray-300 bg-white/50 hover:bg-white/80 text-gray-700 font-medium transition-all duration-300"
                         >
                           <UserPlus className="h-4 w-4 mr-2" />
@@ -246,10 +246,10 @@ const LoginPage = () => {
                         <DialogHeader>
                           <DialogTitle className="text-2xl text-gray-900">Create Account</DialogTitle>
                           <DialogDescription className="text-gray-600">
-                            Register a new user to the IOT Smart Meter system
+                            Register a new user to the Umeme Smart Meter system
                           </DialogDescription>
                         </DialogHeader>
-                        
+
                         <form onSubmit={handleRegister} className="space-y-4">
                           <div className="space-y-2">
                             <Label htmlFor="registerName" className="text-sm font-medium text-gray-700">
@@ -266,7 +266,7 @@ const LoginPage = () => {
                               className="h-11 bg-white border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                             />
                           </div>
-                          
+
                           <div className="space-y-2">
                             <Label htmlFor="registerEmail" className="text-sm font-medium text-gray-700">
                               Email Address
@@ -282,7 +282,7 @@ const LoginPage = () => {
                               className="h-11 bg-white border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                             />
                           </div>
-                          
+
                           <div className="space-y-2">
                             <Label htmlFor="registerMeterNo" className="text-sm font-medium text-gray-700">
                               Meter Number
@@ -314,7 +314,7 @@ const LoginPage = () => {
                               className="h-11 bg-white border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                             />
                           </div>
-                          
+
                           <div className="flex gap-3 pt-4">
                             <Button
                               type="button"

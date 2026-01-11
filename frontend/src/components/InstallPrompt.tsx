@@ -23,7 +23,7 @@ const InstallPrompt: React.FC = () => {
     const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches ||
       (window.navigator as any).standalone ||
       document.referrer.includes('android-app://');
-    
+
     setIsStandalone(isInStandaloneMode);
 
     // Check if user dismissed the prompt before
@@ -33,7 +33,7 @@ const InstallPrompt: React.FC = () => {
 
     // Only show if not installed, not dismissed recently, and on mobile
     const isMobile = window.innerWidth <= 768;
-    
+
     if (!isInStandaloneMode && isMobile && daysSinceDismissed > 7) {
       // For Android/Chrome
       const handleBeforeInstallPrompt = (e: Event) => {
@@ -97,9 +97,9 @@ const InstallPrompt: React.FC = () => {
         <div className="flex items-start gap-4">
           {/* Icon */}
           <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-3 rounded-xl flex-shrink-0">
-            <img 
-              src="/ioticon.png" 
-              alt="App Icon" 
+            <img
+              src="/ioticon.png"
+              alt="App Icon"
               className="h-8 w-8 object-contain"
             />
           </div>
@@ -107,9 +107,9 @@ const InstallPrompt: React.FC = () => {
           {/* Content */}
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-gray-900 mb-1">
-              Install IOT Smart Meter
+              Install Umeme Smart Meter
             </h3>
-            
+
             {isIOS ? (
               // iOS Instructions
               <div className="space-y-2">

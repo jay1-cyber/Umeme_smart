@@ -230,7 +230,7 @@ These auto-connect because they have the same name!
 ### Step 7: Add Title Block
 1. Click **Place → Title Block**
 2. Fill in:
-   - Title: `IoT Smart Meter - ESP32`
+   - Title: `Umeme Smart Meter - ESP32`
    - Author: `Your Names`
    - Date: `January 2025`
    - Revision: `v1.0`

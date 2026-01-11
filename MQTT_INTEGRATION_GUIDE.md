@@ -1,6 +1,6 @@
-# MQTT Integration Guide for IoT Smart Meter
+# MQTT Integration Guide for Umeme Smart Meter
 
-This guide provides complete step-by-step instructions for integrating MQTT into your IoT Smart Meter project for two-way communication between ESP32 and Firebase.
+This guide provides complete step-by-step instructions for integrating MQTT into your Umeme Smart Meter project for two-way communication between ESP32 and Firebase.
 
 ## Table of Contents
 
@@ -635,7 +635,7 @@ Monitor multiple meters in real-time.
 
 ## Conclusion
 
-You now have a complete MQTT integration for your IoT Smart Meter project! The system provides:
+You now have a complete MQTT integration for your Umeme Smart Meter project! The system provides:
 
 ✅ Real-time two-way communication  
 ✅ Automatic balance synchronization  

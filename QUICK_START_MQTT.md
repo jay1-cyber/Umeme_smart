@@ -1,6 +1,6 @@
 # Quick Start Guide - MQTT Integration
 
-Get your IoT Smart Meter with MQTT up and running in 15 minutes!
+Get your Umeme Smart Meter with MQTT up and running in 15 minutes!
 
 ## Prerequisites
 

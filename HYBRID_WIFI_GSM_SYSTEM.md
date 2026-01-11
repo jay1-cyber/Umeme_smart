@@ -2,7 +2,7 @@
 
 ## 🌐 System Overview
 
-The IOT Smart Meter features a **robust dual-connectivity architecture** that ensures uninterrupted operation regardless of network availability. The system intelligently switches between WiFi and GSM GPRS data to maintain continuous communication with the cloud backend.
+The Umeme Smart Meter features a **robust dual-connectivity architecture** that ensures uninterrupted operation regardless of network availability. The system intelligently switches between WiFi and GSM GPRS data to maintain continuous communication with the cloud backend.
 
 ### Key Features
 ✅ **Primary**: WiFi with MQTT for ultra-low latency real-time updates  
@@ -19,7 +19,7 @@ The IOT Smart Meter features a **robust dual-connectivity architecture** that en
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    IOT SMART METER                          │
+│                    Umeme Smart Meter                          │
 │                      (ESP32 + SIM800L)                      │
 └───────────────┬─────────────────────┬───────────────────────┘
                 │                     │
@@ -476,7 +476,7 @@ const unsigned long HTTP_FALLBACK_INTERVAL = 600000;  // 10 minutes
 
 ## 📝 Summary
 
-The IOT Smart Meter's hybrid WiFi/GSM architecture provides:
+The Umeme Smart Meter's hybrid WiFi/GSM architecture provides:
 
 ✅ **99.9% uptime** with dual connectivity  
 ✅ **Automatic failover** from WiFi to GPRS  
